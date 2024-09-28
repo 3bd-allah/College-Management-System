@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CollegeManagementSystem.Models.Entities.Section>
+
+@{
+    ViewData["Title"] = "StudentSections";
+}
+
+<h1>Student Sections</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Instructor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Instructor.InstructorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SectionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SectionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SectionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

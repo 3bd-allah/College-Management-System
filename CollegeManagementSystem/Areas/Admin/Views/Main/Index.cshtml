@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Index";
+}
+
+<head>
+    <title>Admin Dashboard</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <h2>Admin Panel</h2>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        @Html.ActionLink("Manage Students", "ManageStudents", "Main")
+                    </li>
+                    <li class="list-group-item">
+                        @Html.ActionLink("Manage Sections", "ManageSections", "Main")
+                    </li>
+                    <li class="list-group-item">
+                        @Html.ActionLink("Manage Courses", "ManageCourses", "Main")
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+

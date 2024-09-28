@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    
+}
+@model Student;
+<head>
+    <title>Student Dashboard</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <h2>Welcome, @Model.Name </h2>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        @Html.ActionLink("My Information", "StudentDetails", "Student", new{id  = Model.StudentId})
+                    </li>
+                    <li class="list-group-item">
+                        @Html.ActionLink("Available Sections", "StudentSections", "Student", new{id = Model.StudentId})
+                    </li>
+                    <li class="list-group-item">
+                        @Html.ActionLink("Available Courses", "StudentCourses", "Student", new {Id = Model.StudentId})
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>

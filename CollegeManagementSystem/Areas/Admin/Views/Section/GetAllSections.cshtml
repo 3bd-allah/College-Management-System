@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "GetAllSections";
+}
+
+@model IEnumerable<CollegeManagementSystem.Models.Entities.Section>
+<h1>All Sections</h1>
+
+<p>
+    <a asp-action="AddSection" class="btn btn-outline-primary">Add New Section</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Instructor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                Handle
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Instructor.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade.Title)
+            </td>
+            <td>
+                <a asp-action="EditSection" asp-route-id="@item.SectionId" class="btn btn-outline-secondary">Edit</a> |
+                <a asp-action="DeleteSection" asp-route-id="@item.SectionId" class="btn btn-outline-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

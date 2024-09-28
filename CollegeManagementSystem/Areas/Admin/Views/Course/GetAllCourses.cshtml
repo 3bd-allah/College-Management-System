@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CollegeManagementSystem.Models.Entities.Course>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "GetAllCourses";
+}
+
+<h1>All Courses</h1>
+
+<p>
+    <a asp-action="AddCourse" class="btn btn-outline-primary">Add New Course</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Credits)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credits)
+            </td>
+            <td>
+                <a asp-action="EditCourse" asp-route-id="@item.CourseId" class="btn btn-outline-secondary">Edit</a> |
+                    <a asp-action="DeleteCourse" asp-route-id="@item.CourseId" class="btn btn-outline-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

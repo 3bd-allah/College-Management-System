@@ -1,0 +1,118 @@
+﻿
+@model RegisterVM;
+@{
+    ViewData["Title"] = "Register";
+    SelectList grades = new SelectList(ViewBag.Grades, nameof(GradeYear.Id), nameof(GradeYear.Title));
+}
+
+
+<div class="container m-auto w-50">
+    <h2 class="mt-5 mb-5"><b>Register</b></h2>
+    
+    <form asp-action="register" method="post">
+
+        @* Name *@
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        @* Email *@
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" aria-describedby="emailHelp">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        @* Password *@
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        @* Confirm Password*@
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+            <input asp-for="ConfirmPassword" class="form-control">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        @* User Role *@
+        <div class="mb-3" id="roleSelect">
+            <label asp-for="UserType" class="form-label">User Type</label>
+            <div>   
+                <input type="radio" asp-for="UserType" name="UserType" value="Student" id="Student" checked />
+                <label for="Student">Student</label>
+                <input type="radio" asp-for="UserType" name="UserType" value="Admin" id="Admin" />
+                <label for="Admin">Admin</label>
+            </div>
+        </div>
+
+        @* User Role *@
+ @*        <div class="mb-3" id="roleSelect">
+            <label asp-for="UserType" class="form-label">User Type</label>
+            <select asp-for="UserType" >
+                <option value="" selected disabled>Choose User Type</option>
+                <option value="1" >Student</option>
+                <option value="2" >Admin</option>
+            </select>
+        </div> *@
+
+        @* conditionally displaying grade field based on user role *@
+        <div class="mb-3" id="gradeField">
+            <label asp-for="GradeId" class="form-label">Grade</label>
+            <select asp-for="GradeId" asp-items="grades">
+                <option value="" selected disabled>Choose your grade</option>
+            </select>
+        </div>
+        
+
+        <div asp-validation-summary="All" class="text-danger">
+        </div>
+            
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        // Get the elements
+        var roleSelect = document.getElementById("roleSelect");
+        var gradeField = document.getElementById("gradeField");
+        var roles = document.getElementsByName("UserType");
+
+        // Function to show/hide the Grade field based on role
+        function toggleGradeField() {
+            // var selectedRole = String(roleSelect.value);
+            let selectedRole = "";
+
+            for (let i = 0; i < roles.length; i++) {
+                if (roles[i].checked) {
+                    selectedRole = roles[i].value;
+                }
+            }
+
+            console.log("Selected Role: " + selectedRole);
+            if (selectedRole === "Student") {
+                gradeField.style.display = "block";  // Show the grade field
+            } else {
+                gradeField.style.display = "none";   // Hide the grade field
+            }
+        }
+
+        // Attach the event listener to run when the role is changed
+        roleSelect.addEventListener("change", toggleGradeField);
+
+        // Initial check to toggle the grade field if the page is refreshed or loaded with data
+        // document.addEventListener("DOMContentLoaded", toggleGradeField);
+        // toggleGradeField();
+    </script>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/jquery/dist/jquery.js"></script>
+	<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+	<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
