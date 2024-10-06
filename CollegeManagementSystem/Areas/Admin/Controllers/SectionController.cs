@@ -65,12 +65,30 @@ namespace CollegeManagementSystem.Areas.Admin.Controllers
 
         // Edit Section => Update 
         [HttpGet]
-        public IActionResult EditSection()
+        public IActionResult EditSection(int id)
         {
-            
-            return View();
+            ViewBag.Courses = context.Courses.ToList();
+            ViewBag.Instructors = context.Instructors.ToList();
+            ViewBag.Grades = context.Grades.ToList();
+
+            Section? sectionToUpdate = context.Sections.Where(sec => sec.SectionId == id).SingleOrDefault();
+
+            if(sectionToUpdate is not null)
+            {
+                SectionVM sectionVM = new SectionVM
+                {
+                    SectionId = sectionToUpdate.SectionId,
+                    Title = sectionToUpdate.Title,
+                    InstructorId = sectionToUpdate.InstructorId,
+                    CourseId  = sectionToUpdate.CourseId,
+                    GradeId = sectionToUpdate.GradeId
+                };
+                return View(sectionVM);
+            }
+            return NotFound();
         }
 
+        [HttpPost]
         public IActionResult EditSection(SectionVM sectionVM)
         {
             if (!ModelState.IsValid)
@@ -78,8 +96,33 @@ namespace CollegeManagementSystem.Areas.Admin.Controllers
                 return View(sectionVM);
             }
 
-            return RedirectToAction(nameof(SectionController.GetAllSections));
+            Section? updatedSection = context.Sections
+                .Where(sec => sec.SectionId == sectionVM.SectionId)
+                .SingleOrDefault();
+            if(updatedSection is not null)
+            {
+                updatedSection.Title = sectionVM.Title;
+                updatedSection.CourseId = sectionVM.CourseId;
+                updatedSection.InstructorId = sectionVM.InstructorId;
+                updatedSection.GradeId = sectionVM.GradeId;
+                context.Sections.Update(updatedSection);
+                context.SaveChanges();
+                return RedirectToAction(nameof(SectionController.GetAllSections));
+            }
+            return NotFound();
+
         }
 
+        public IActionResult DeleteSection(int id)
+        {
+            Section? section = context.Sections.Where(sec => sec.SectionId == id).SingleOrDefault();
+            if (section != null)
+            {
+                context.Sections.Remove(section);
+                context.SaveChanges();
+                return RedirectToAction(nameof(SectionController.GetAllSections));
+            }
+            return NotFound();
+        }
     }
 }

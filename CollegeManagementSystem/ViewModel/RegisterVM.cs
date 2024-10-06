@@ -30,7 +30,7 @@ namespace CollegeManagementSystem.ViewModel
 		public string ConfirmPassword { get; set; } = null!;
 
 		
-        //[Required(ErrorMessage = "Grade is required")]
+        [Required(ErrorMessage = "Grade is required")]
 		public int GradeId { get; set; }	
 
         [Required(ErrorMessage = "User role is required")]

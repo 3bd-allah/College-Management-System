@@ -13,6 +13,7 @@ namespace CollegeManagementSystem.Models.Entities
         public int StudentId { get; set; }
         public Student Student { get; set; }
 
+        [Required]
         [ForeignKey("Section")]
         public int SectionId { get; set; }
         public Section Section { get; set; }

@@ -1,7 +1,9 @@
 ﻿using CollegeManagementSystem.Controllers;
 using CollegeManagementSystem.Models.Data;
 using CollegeManagementSystem.Models.Entities;
+using CollegeManagementSystem.Models.IdentityEntities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +14,12 @@ namespace CollegeManagementSystem.Areas.Admin.Controllers
     public class StudentController : Controller
     {
         private readonly AppDbContext context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public StudentController(AppDbContext _context)
+        public StudentController(AppDbContext _context, UserManager<ApplicationUser> _userManager)
         {
             this.context = _context;
+            userManager = _userManager;
         }
         public IActionResult GetAll()
         {
@@ -35,12 +39,19 @@ namespace CollegeManagementSystem.Areas.Admin.Controllers
 
 
         // delete 
-        public IActionResult DeleteStudent(int id)
+        public async Task<IActionResult> DeleteStudent(int id)
         {
             Student? studentToDelete = context.Students.Where(st => st.StudentId == id).SingleOrDefault();
 
             if(studentToDelete is not null)
             {
+                string studentEmail = studentToDelete.Email;
+                ApplicationUser? userToDelete = await userManager.FindByEmailAsync(studentEmail);
+
+                if(userToDelete is not null)
+                {
+                    await userManager.DeleteAsync(userToDelete);
+                }
                 context.Students.Remove(studentToDelete);
                 context.SaveChanges();
             }

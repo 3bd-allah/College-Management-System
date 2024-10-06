@@ -78,7 +78,7 @@ namespace CollegeManagementSystem.Controllers
 						};
 
 						await roleManager.CreateAsync (adminRole);
-
+							
 
 						// Add user to 'Admin' role 
 						await userManager.AddToRoleAsync(user, UserTypeOptions.Admin.ToString());

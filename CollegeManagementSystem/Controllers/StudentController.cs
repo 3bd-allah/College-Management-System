@@ -56,7 +56,11 @@ namespace CollegeManagementSystem.Controllers
 
         public IActionResult StudentSections(int id)
         {
-            Student? student = context.Students.Where(stu => stu.StudentId == id).SingleOrDefault();
+            Student? student = context.Students
+                .Include(s => s.GradeYear)
+                .Where(stu => stu.StudentId == id)
+                .SingleOrDefault();
+
             if(student is not null)
             {
                 var studentSecitons = context.Sections
@@ -72,12 +76,29 @@ namespace CollegeManagementSystem.Controllers
         public IActionResult StudentCourses(int id)
         {
             Student? student = context.Students.Where(stu => stu.StudentId == id).SingleOrDefault();
-            if (student is not null)
+
+            var coursesIDs = context.Sections
+                .Include(sec => sec.Course)
+                .Where(s => s.GradeId == student.GradeYeadID)
+                .Select(s => s.CourseId).ToList();
+
+            List<Course> coursesOfStudent = new();
+
+            foreach (int courseId in coursesIDs)
             {
-                var studentCourses= context.Sections.Include(c => c.Course).Where(sec => sec.GradeId == student.GradeYeadID).ToList();
-                return View(studentCourses);
+                Course course = context.Courses.Where(c => c.CourseId == courseId).SingleOrDefault();
+                if (course is not null)
+                {
+                    coursesOfStudent.Add(course);
+                }
             }
-            return NotFound();
+
+            if (coursesOfStudent.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return View(coursesOfStudent);
         }
     }
 }

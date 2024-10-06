@@ -1,8 +1,11 @@
-﻿@model CollegeManagementSystem.Models.Entities.Section
+﻿@model CollegeManagementSystem.ViewModel.SectionVM; 
 
 @{
     Layout = "_Layout";
     ViewData["Title"] = "EditSection";
+    SelectList courses = new SelectList(ViewBag.Courses, "CourseId", "CourseName");
+    SelectList instructors = new SelectList(ViewBag.Instructors, "InstructorId", "Name");
+    SelectList grades = new SelectList(ViewBag.Grades, "Id", "Title");
 }
 
 <h1>Edit Section</h1>
@@ -14,27 +17,33 @@
         <form asp-action="EditSection">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="SectionId" />
-            <div class="form-group">
+            <div class="form-group row m-auto mb-3">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CourseId" class="control-label"></label>
-                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
+            <div class="form-group row m-auto mb-3">
+                <label asp-for="CourseId" class="control-label">Course</label>
+                <select asp-for="CourseId" asp-items="courses" class="">
+                    <option value="" selected disabled>Choose Course</option>
+                </select>
                 <span asp-validation-for="CourseId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="InstructorId" class="control-label"></label>
-                <select asp-for="InstructorId" class="form-control" asp-items="ViewBag.InstructorId"></select>
+            <div class="form-group row m-auto mb-3">
+                <label asp-for="InstructorId" class="control-label">Instructor</label>
+                <select asp-for="InstructorId" asp-items="instructors" class="">
+                    <option value="" selected disabled>Choose Instructor</option>
+                </select>
                 <span asp-validation-for="InstructorId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="GradeId" class="control-label"></label>
-                <select asp-for="GradeId" class="form-control" asp-items="ViewBag.GradeId"></select>
+            <div class="form-group row m-auto mb-3">
+                <label asp-for="GradeId" class="control-label">Grade</label>
+                <select asp-for="GradeId" asp-items="grades" class="">
+                    <option value="" selected disabled>Choose Grade</option>
+                </select>
                 <span asp-validation-for="GradeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
